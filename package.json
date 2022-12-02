@@ -1,7 +1,8 @@
 {
   "name": "@atalho/frontend",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": false,
   "dependencies": {
     "@unform/core": "^2.1.6",
     "@unform/web": "^2.1.6",
