@@ -15,9 +15,31 @@ export default function List({ title }) {
   const [linkers, setLinkers] = useState([]);
   useEffect(() => {
     async function loadLinkers(token, user) {
-      const { data } = await api.get('/linkers/by-user', { headers: { Authorization: `Bearer ${token}` } });
-      setLinkers(data);
+      try {
+        const { data } = await api.get('/linkers/by-user', { headers: { Authorization: `Bearer ${token}` } });
+        setLinkers(data);
+      } catch (error) {
+        if (error.response && error.response.data && error.response.data.error && error.response.data.error === "Token invalid.") {
+          try {
+            const refreshToken = JSON.parse(sessionStorage.getItem("refreshToken"))
+            if (!refreshToken) {
+              sessionStorage.clear()
+              document.location.href = "/signin"
+            }
+            const { data: { refreshToken: newRefreshToken, token: newToken } } = await api.post("/auth/refresh_token", {
+              refreshToken: `Bearer ${refreshToken}`
+            })
+            sessionStorage.setItem("refreshToken", newRefreshToken)
+            sessionStorage.setItem("token", newToken)
+            const { data } = await api.get('/linkers/by-user', { headers: { Authorization: `Bearer ${newToken}` } });
+            setLinkers(data);
+          } catch (e) {
+            sessionStorage.clear()
+            document.location.href = "/signin"
+          }
+      }
     }
+  }
     loadLinkers(token, user);
   }, [token, user]);
   return (

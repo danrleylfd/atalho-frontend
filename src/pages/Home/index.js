@@ -51,13 +51,15 @@ export default function Home({ title }) {
       await api.post("/linkers", { user, ...data }, { headers: { Authorization: `Bearer ${token}` } })
     } catch (error) {
       if (error.response && error.response.data && error.response.data.error && error.response.data.error === "Token invalid.") {
-        const refreshToken = JSON.parse(sessionStorage.getItem("refreshToken"))
-        if (!refreshToken) {
-          sessionStorage.clear()
-          document.location.href = "/signin"
-        }
         try {
-          const { data: { refreshToken: newRefreshToken, token: newToken } } = await api.post("/auth/refresh_token", { refreshToken })
+          const refreshToken = JSON.parse(sessionStorage.getItem("refreshToken"))
+          if (!refreshToken) {
+            sessionStorage.clear()
+            document.location.href = "/signin"
+          }
+          const { data: { refreshToken: newRefreshToken, token: newToken } } = await api.post("/auth/refresh_token", {
+            refreshToken: `Bearer ${refreshToken}`
+          })
           sessionStorage.setItem("refreshToken", newRefreshToken)
           sessionStorage.setItem("token", newToken)
           await api.post("/linkers", { user, ...data }, { headers: { Authorization: `Bearer ${newToken}` } })
@@ -66,7 +68,6 @@ export default function Home({ title }) {
           document.location.href = "/signin"
         }
       }
-      return
     }
     //const withRefresh = createBrowserHistory({ forceRefresh: true });
     //const navigate = useNavigate();

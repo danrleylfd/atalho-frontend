@@ -24,10 +24,29 @@ export default function Account({ title }) {
     sessionStorage.clear();
     try {
       const { data: auth } = await api.put('/auth/edit_account', data);
+      sessionStorage.setItem('refreshToken', auth.refreshToken);
       sessionStorage.setItem('token', auth.token);
       Object.keys(auth.user).map(key => sessionStorage.setItem(key, auth.user[key]));
-    } catch (_) {
-      return setErrEdit("error");
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.error && error.response.data.error === "Token invalid.") {
+        try {
+          const refreshToken = JSON.parse(sessionStorage.getItem("refreshToken"))
+          if (!refreshToken) {
+            sessionStorage.clear()
+            document.location.href = "/signin"
+          }
+          const { data: { refreshToken: newRefreshToken, token: newToken } } = await api.post("/auth/refresh_token", {
+            refreshToken: `Bearer ${refreshToken}`
+          })
+          sessionStorage.setItem("refreshToken", newRefreshToken)
+          sessionStorage.setItem("token", newToken)
+        } catch (e) {
+          sessionStorage.clear()
+          document.location.href = "/signin"
+        }
+      } else {
+        return setErrEdit("error");
+      }
     }
     document.location.href = '/';
   };
