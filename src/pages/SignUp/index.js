@@ -18,6 +18,7 @@ export default function SignUp({ title }) {
     setErr("");
     try {
       const { data: auth } = await api.post('/auth/signup', data);
+      sessionStorage.setItem("refreshToken", auth.refreshToken);
       sessionStorage.setItem('token', auth.token);
       Object.keys(auth.user).map(key => sessionStorage.setItem(key, auth.user[key]));
     } catch (_) {
