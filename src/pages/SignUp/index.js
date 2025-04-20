@@ -18,9 +18,9 @@ export default function SignUp({ title }) {
     setErr("");
     try {
       const { data: auth } = await api.post('/auth/signup', data);
-      sessionStorage.setItem("refreshToken", auth.refreshToken);
-      sessionStorage.setItem('token', auth.token);
-      Object.keys(auth.user).map(key => sessionStorage.setItem(key, auth.user[key]));
+      localStorage.setItem("refreshToken", auth.refreshToken);
+      localStorage.setItem('token', auth.token);
+      Object.keys(auth.user).map(key => localStorage.setItem(key, auth.user[key]));
     } catch (_) {
       return setErr("error");
     }

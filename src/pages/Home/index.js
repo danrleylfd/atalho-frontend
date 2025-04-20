@@ -10,12 +10,13 @@ import Input from "../../components/Input"
 import Button from "../../components/Button"
 
 import api from "../../services"
+import refreshToken from "../../utils/refreshToken"
 
 export default function Home({ title }) {
   document.title = title
   const formRef = useRef()
-  const token = sessionStorage.getItem("token")
-  const user = sessionStorage.getItem("_id")
+  const token = localStorage.getItem("token")
+  const user = localStorage.getItem("_id")
 
   const [errLabel, setErrLabel] = useState("")
   const [msgLabel, setMsgLabel] = useState("Apelido")
@@ -52,19 +53,13 @@ export default function Home({ title }) {
     } catch (error) {
       if (error.response && error.response.data && error.response.data.error && error.response.data.error === "Token invalid.") {
         try {
-          const refreshToken = JSON.parse(sessionStorage.getItem("refreshToken"))
-          if (!refreshToken) {
-            sessionStorage.clear()
-            document.location.href = "/signin"
-          }
-          const { data: { refreshToken: newRefreshToken, token: newToken } } = await api.post("/auth/refresh_token", {
-            refreshToken: `Bearer ${refreshToken}`
-          })
-          sessionStorage.setItem("refreshToken", newRefreshToken)
-          sessionStorage.setItem("token", newToken)
-          await api.post("/linkers", { user, ...data }, { headers: { Authorization: `Bearer ${newToken}` } })
+          const { data, error } = await refreshToken()
+          if (!data && error) throw error
+          localStorage.setItem("refreshToken", data.refreshToken)
+          localStorage.setItem("token", data.token)
+          await api.post("/linkers", { user, ...data }, { headers: { Authorization: `Bearer ${data.token}` } })
         } catch (e) {
-          sessionStorage.clear()
+          localStorage.clear()
           document.location.href = "/signin"
         }
       }

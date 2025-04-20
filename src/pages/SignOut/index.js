@@ -6,7 +6,7 @@ import Footer from '../../components/Footer';
 
 export default function SignOut({ title }) {
   document.title = title;
-  sessionStorage.clear();
+  localStorage.clear();
   return (
     <main>
       <div className='content-box'>

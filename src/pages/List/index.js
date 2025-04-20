@@ -6,35 +6,30 @@ import Footer from '../../components/Footer';
 import LinkButton from '../../components/LinkButton';
 
 import api from '../../services';
+import refreshToken from '../../utils/refreshToken';
 
 export default function List({ title }) {
   document.title = title;
-  const token = sessionStorage.getItem('token');
-  const user = sessionStorage.getItem('_id');
-  const name = sessionStorage.getItem('name');
+  const token = localStorage.getItem('token');
+  const user = localStorage.getItem('_id');
+  const name = localStorage.getItem('name');
   const [linkers, setLinkers] = useState([]);
   useEffect(() => {
     async function loadLinkers(token, user) {
       try {
-        const { data } = await api.get('/linkers/by-user', { headers: { Authorization: `Bearer ${token}` } });
-        setLinkers(data);
+        const { data: linker } = await api.get('/linkers/by-user', { headers: { Authorization: `Bearer ${token}` } });
+        setLinkers(linker);
       } catch (error) {
         if (error.response && error.response.data && error.response.data.error && error.response.data.error === "Token invalid.") {
           try {
-            const refreshToken = JSON.parse(sessionStorage.getItem("refreshToken"))
-            if (!refreshToken) {
-              sessionStorage.clear()
-              document.location.href = "/signin"
-            }
-            const { data: { refreshToken: newRefreshToken, token: newToken } } = await api.post("/auth/refresh_token", {
-              refreshToken: `Bearer ${refreshToken}`
-            })
-            sessionStorage.setItem("refreshToken", newRefreshToken)
-            sessionStorage.setItem("token", newToken)
-            const { data } = await api.get('/linkers/by-user', { headers: { Authorization: `Bearer ${newToken}` } });
-            setLinkers(data);
+            const { data, error } = await refreshToken()
+            if (!data && error) throw error
+            localStorage.setItem("refreshToken", data.refreshToken)
+            localStorage.setItem("token", data.token)
+            const { data: linker } = await api.get('/linkers/by-user', { headers: { Authorization: `Bearer ${data.token}` } });
+            setLinkers(linker);
           } catch (e) {
-            sessionStorage.clear()
+            localStorage.clear()
             document.location.href = "/signin"
           }
       }
