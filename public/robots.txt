@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+Allow: /home
+Allow: /signup
+Allow: /signin
+Allow: /forgot-password
+Allow: /reset-password
+Allow: /signout
+Allow: /list
+Allow /account
+Allow /edit/*
+
+Sitemap: /sitemap.xml
+
+Disallow:
