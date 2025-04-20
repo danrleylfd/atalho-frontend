@@ -9,6 +9,7 @@ import Input from "../../components/Input"
 import Button from "../../components/Button"
 
 import api from "../../services"
+import refreshToken from "../../utils/refreshToken"
 
 export default function Edit({ title }) {
   document.title = title
