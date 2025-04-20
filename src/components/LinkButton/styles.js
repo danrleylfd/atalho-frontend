@@ -1,10 +1,10 @@
-import styled from 'styled-components';
+import styled from "styled-components"
 
 export default styled.a`
   height: 1.25rem;
   font-family: var(--fonts-default);
   font-size: var(--fontSizes-sm);
-  color: #996DFF;
+  color: #996dff;
   background-color: transparent;
   text-decoration: none;
   border-radius: 5px;
@@ -17,7 +17,9 @@ export default styled.a`
   transition: color 0.2s ease 0s;
   text-transform: unset;
 
-  :hover { text-decoration: underline; }
+  :hover {
+    text-decoration: underline;
+  }
 
   span {
     display: flex;
@@ -36,8 +38,8 @@ export default styled.a`
         width: 0px;
         height: 1px;
         transition: width 0.2s ease 0s;
-        background-color: #996DFF;
+        background-color: #996dff;
       }
     }
   }
-`;
+`

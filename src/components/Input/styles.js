@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components"
 
 export default styled.div`
   width: 100%;
@@ -12,7 +12,9 @@ export default styled.div`
     width: 100%;
     transition: opacity 0.2s ease 0s;
 
-    .true { opacity: 0.5; } //disabled = true
+    .true {
+      opacity: 0.5;
+    } //disabled = true
 
     input {
       box-sizing: border-box;
@@ -37,9 +39,10 @@ export default styled.div`
 
   .hidded {
     position: absolute;
-    top: -9999%; left: -9999%;
+    top: -9999%;
+    left: -9999%;
     max-width: 0 !important;
     max-height: 0 !important;
     padding: 0 0 !important;
   }
-`;
+`

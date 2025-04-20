@@ -1,9 +1,9 @@
-import React from 'react';
-import Routes from './routes';
-import Base from './styles/base';
-import Generic from './styles/generic';
-import Colors from './styles/colors';
-import Background from './components/Background';
+import React from "react"
+import Routes from "./routes"
+import Base from "./styles/base"
+import Generic from "./styles/generic"
+import Colors from "./styles/colors"
+import Background from "./components/Background"
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
       <Background />
       <Routes />
     </>
-  );
+  )
 }
 
-export default App;
+export default App

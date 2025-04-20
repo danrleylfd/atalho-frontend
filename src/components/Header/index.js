@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react"
 
-import HeaderStylized from './styles';
+import HeaderStylized from "./styles"
 
-export default function Header({ primaryText='Atalho', secondaryText }) {
+export default function Header({ primaryText = "Atalho", secondaryText }) {
   return (
     <HeaderStylized>
-      <div/>
+      <div />
       <h1>{primaryText}</h1>
       <p>{secondaryText}</p>
     </HeaderStylized>

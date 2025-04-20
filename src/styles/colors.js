@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components"
 
 export default createGlobalStyle`
   :root {
@@ -113,4 +113,4 @@ export default createGlobalStyle`
     ---color: var(--colors-white);
     ---hoverColor: var(--colors-rocketseat-light);
   }
-`;
+`

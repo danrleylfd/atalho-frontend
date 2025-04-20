@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components"
 
 export default styled.div`
   display: flex;
@@ -28,7 +28,6 @@ export default styled.div`
       justify-content: center;
       text-transform: uppercase;
     }
-
   }
 
   .primary {
@@ -100,4 +99,4 @@ export default styled.div`
     height: var(--space-12);
     padding: 0 var(--space-8);
   }
-`;
+`
