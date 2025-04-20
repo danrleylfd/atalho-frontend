@@ -39,7 +39,7 @@ export default function Home({ title }) {
       return
     }
     const urlRegex = /^(https?:\/\/).+\..+/
-    if (urlRegex.test(data.link)) {
+    if (!urlRegex.test(data.link)) {
       formRef.current.clearField("link")
       setErrLink("error")
       setMsgLink("O Link é inválido.")
