@@ -23,7 +23,7 @@ export default function Account({ title }) {
     localStorage.clear(); //Remover Na Proxima Atualização
     sessionStorage.clear();
     try {
-      const { data: auth } = await api.put('/auth/edit_account', data);
+      const { data: auth } = await api.put('/auth', data);
       sessionStorage.setItem('refreshToken', auth.refreshToken);
       sessionStorage.setItem('token', auth.token);
       Object.keys(auth.user).map(key => sessionStorage.setItem(key, auth.user[key]));
