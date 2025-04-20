@@ -22,7 +22,7 @@ export default function Account({ title }) {
     setErrEdit("")
     localStorage.clear()
     try {
-      const { data: auth } = await api.put("/account", data)
+      const { data: auth } = await api.put("/account", data, { headers: { Authorization: `Bearer ${token}` } })
       localStorage.setItem("refreshToken", auth.refreshToken)
       localStorage.setItem("token", auth.token)
       Object.keys(auth.user).map((key) => localStorage.setItem(key, auth.user[key]))
@@ -35,7 +35,7 @@ export default function Account({ title }) {
     if (data.email.length <= 0 || data.password.length <= 0) return setErrDel("error")
     setErrDel("")
     try {
-      await api.delete("/account", { data })
+      await api.delete("/account", { data }, { headers: { Authorization: `Bearer ${token}` } })
     } catch (_) {
       return setErrDel("error")
     }
