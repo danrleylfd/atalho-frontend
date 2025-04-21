@@ -12,7 +12,7 @@ export default function Redirect({ title }) {
   const [data, setData] = useState()
   useEffect(() => {
     async function loadData(label) {
-      const { data } = await api.get(`/${label}`)
+      const { data } = await api.get(`/access/${label}`)
       setData(data)
       document.location.href = data.link
     }
