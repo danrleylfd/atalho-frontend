@@ -23,8 +23,6 @@ export default function Account({ title }) {
     localStorage.clear()
     try {
       const { data: auth } = await api.put("/account", data, { headers: { Authorization: `Bearer ${token}` } })
-      localStorage.setItem("refreshToken", auth.refreshToken)
-      localStorage.setItem("token", auth.token)
       Object.keys(auth.user).map((key) => localStorage.setItem(key, auth.user[key]))
     } catch (_) {
       return setErrEdit("error")
@@ -50,7 +48,7 @@ export default function Account({ title }) {
         ) : (
           <Form ref={formRefEdit} onSubmit={(data) => handleFormSubmitEdit(data)}>
             <Input className={errEdit} name="name" placeholder="Novo Nome" type="name" />
-            <Input name="email" placeholder="E-mail" type="email" onChange={() => {}} value={localStorage.getItem("email")} className="hidded" tabIndex={-1} />
+            <Input className="hidded" name="email" placeholder="E-mail" type="email" onChange={() => {}} value={localStorage.getItem("email")} tabIndex={-1} />
             <Input className={errEdit} name="password" placeholder="Senha" type="password" />
             <Button variant="warning" placeholder="Renomear" type="submit" />
           </Form>
